@@ -75,25 +75,10 @@ jobs:
           echo "new-version=${NEW_VERSION}" >> $GITHUB_OUTPUT
         if: inputs.version && inputs.version != 'none'
 
-      - name: Set up NPM 🔑
-        run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPMJS_ILPT_PUBLISH }}"
-
-      - name: Publish 🚀
-        run: npm publish --access public
-
-      - name: Read the current changes 📖
+      - name: Read the current changes
         run: |
           # Grab the text between ### What's changed and ---
           sed -n '/### What'\''s changed/,/---/{//!p}' ${{inputs.changelog_path}} > ./current-changes.md
-
-      - name: Echo the current changes 📖
-        run: cat ./current-changes.md
-
-      - name: Create release ⛩️
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.set-version.outputs.new-version }}
-          body_path: ./current-changes.md
 
       - name: Update changelog 📝
         run: |
@@ -101,17 +86,24 @@ jobs:
           DT=$(date +'%Y-%m-%d %H:%M')
 
           # Replace ### What's changed to the current release eg. #### Release v0.3.1
-          sed "s/### What's changed/### Release $VERSION - $DT/" ${{inputs.changelog_path}} > tmp_changelog.md
+          sed -i "s/### What's changed/### Release $VERSION - $DT/" ${{inputs.changelog_path}}
 
+      - name: Set up NPM 🔑
+        run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPMJS_ILPT_PUBLISH }}"
+
+      - name: Publish 🚀
+        run: npm publish --access public
+
+      - name: Create release ⛩️
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.set-version.outputs.new-version }}
+          body_path: ./current-changes.md
+
+      - name: Prepare changelog for next release 📝
+        run: |
           # Add the new What's changed section with a default release message
-          echo -e "### What's changed\n\n- No changelog has been added to this release\n\n---\n" > ./tmp_top.md
-
-          # Combine the two parts back into the original file
-          cat tmp_top.md | cat - tmp_changelog.md  > temp && mv temp ${{inputs.changelog_path}}
-
-          # Remove the temporary files
-          rm ./tmp_top.md
-          rm ./tmp_changelog.md
+          sed -i "1i### What's changed\n\n- No changelog has been added to this release\n\n---\n" ${{inputs.changelog_path}}
 
           # Commit the updated changelog
           git add ${{inputs.changelog_path}}
