@@ -20,7 +20,7 @@ on:
 
 jobs:
   publish:
-    uses: infinitaslearning/workflow-publish-public-module/.github/workflows/publish-module@v1
+    uses: infinitaslearning/workflow-publish-public-module/.github/workflows/publish-module.yml@v1
     with:
       version: ${{ inputs.version }}
     secrets: inherit
