@@ -3,7 +3,7 @@ kind: Component
 metadata:
   name: workflow-publish-public-module
   description: Infrastructure as code
-  annotations:
+  annotations: {}
   links:
     - url: https://github.com/infinitaslearning/workflow-publish-public-module
       title: Generic ILPT workflows  

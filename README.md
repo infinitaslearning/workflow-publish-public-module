@@ -20,11 +20,8 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
-    steps:
-      - publish:
-        uses: infinitaslearning/workflow-publish-public-module/.github/workflows/publishmodule@v1
-        with:
-          version: ${{ inputs.version }}
-        secrets: inherit
+    uses: infinitaslearning/workflow-publish-public-module/.github/workflows/publish-module@v1
+    with:
+      version: ${{ inputs.version }}
+    secrets: inherit
 ```
