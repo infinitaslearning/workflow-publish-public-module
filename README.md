@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - publish:
-        uses: infinitaslearning/workflow-ci/.github/workflows/publishmodule@v1
+        uses: infinitaslearning/workflow-publish-public-module/.github/workflows/publishmodule@v1
         with:
           version: ${{ inputs.version }}
         secrets: inherit
