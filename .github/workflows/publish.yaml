@@ -18,6 +18,6 @@ jobs:
           include: |
             .github/workflows/*
             README.md
-          exclude: .github/workflows/publish.yml
+          exclude: .github/workflows/publish.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

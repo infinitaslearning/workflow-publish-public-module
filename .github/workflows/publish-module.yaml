@@ -29,6 +29,10 @@ jobs:
 
       - name: Check @ilpt namespace 🏷️
         run: |
+          if [[ ${{ github.repository_owner }} != "infinitaslearning" ]]; then
+            echo "Repository must be owned by Infinitas Learning"
+            exit 1
+          fi
           if [[ $(jq -r '.name' package.json) != @ilpt/* ]]; then
             echo "Package name must start with @ilpt/ namespace"
             exit 1

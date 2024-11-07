@@ -1,5 +1,7 @@
 # workflow-publish-public-module
-Publishes a public @ilpt module to npmjs
+Publishes a public @ilpt module to npmjs. 
+
+This workflow is intended for infinitaslearning modules only.
 
 ## Usage
 
@@ -23,5 +25,6 @@ jobs:
     uses: infinitaslearning/workflow-publish-public-module/.github/workflows/publish-module.yaml@v1
     with:
       version: ${{ inputs.version }}
-    secrets: inherit
+    secrets:
+      NPMJS_ILPT_PUBLISH: ${{ secrets.NPMJS_ILPT_PUBLISH }}
 ```
