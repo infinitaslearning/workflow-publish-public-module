@@ -71,7 +71,7 @@ jobs:
         run: npm run build
 
       - name: Bump version 📈
-        id: version
+        id: set-version
         run: |
           git config --local user.email "github@infinitaslearning.com"
           git config --local user.name "GitHub Action"
